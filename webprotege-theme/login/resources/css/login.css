@@ -1,0 +1,759 @@
+
+:root {
+
+    /* Used for text color */
+    --primary--color:                               #505050;
+
+    /* Used for window background color */
+    --primary--background-color:                    #ffffff;
+
+    /*Used for text color for items of lesser importance*/
+    --secondary--color:                             #707070;
+
+    /*Used for text color for items of lesser importance*/
+    --tertiary--color:                      #9a9a9a;
+
+    /* Used for the color of separator lines and borders */
+    --separator--color:                     #f0f0f0;
+
+    /* Used for the color of placeholder text */
+    --placeholder--color:                   rgba(200, 200, 200, 1.0);
+
+    --alternate--background-color:          #fafafa;
+    --alternate--separator--color:          #e0e0e0;
+    --alternate--separator-strong--color:   #d0d0d0;
+
+    --accent--color:                        #116cd6;
+
+    --tooltip--color:                       #ffffff;
+    --tooltip--background-color:            #686868;
+
+    --header-footer--box-shadow:            0 0 10px 0 #e0e0e0;
+
+    --item--hover--background-color:        #f0f0f0;
+
+    --selected-item--background-color:      var(--accent--color);
+    --selected-item--color:                 white;
+
+    --selected-menu-item--background-color: var(--accent--color);
+    --selected-menu-item--color:            white;
+
+    --tab--background-color:                #e4e4e4;
+    --tab--hover--background-color:         #d8d8d8;
+    --selected-tab--color:                  var(--accent--color);
+    --selected-tab--background-color:       #ffffff;
+
+
+    --btn--hover--color:                    var(--accent--color);
+
+    --wp-topbar--color:                     var(--primary--color);
+    --topbar--background-color:                     var(--alternate--background-color);
+
+    --inlay-panel--background-color:                var(--alternate--background-color);
+
+    --inlay-panel--border:                          1px solid var(--alternate--separator--color);
+
+    --inlay-panel--border-radius:                   3px;
+
+    --inlay-panel--alternate-background-color:      #f0f0f0;
+
+    --view-toolbar--background-color:               var(--alternate--background-color);
+    --view-toolbar--hover--background-color             :#e0e0e0;
+
+    --card--box-shadow:                1px 2px 3px #c0c0c0;
+
+    --error--color:                                 #af0002;
+
+    --outline:                                      #94c0ed solid 2px;
+
+    --widgetmap-view-border-color:                  var(--separator--color);
+    --widgetmap-view-header-background-color:       #808080;
+    --widgetmap-view-header-font-weight:            400;
+    --widgetmap-view-header-padding-left:           3px;
+
+    --gt-tree__row--selected--background-color:     var(--selected-item--background-color);
+    --gt-tree__row--selected--color:                var(--selected-item--color);
+    --gt-tree__row--hover--background-color:        var(--item--hover--background-color);
+
+    -webkit-font-smoothing:                         subpixel-antialiased;
+    text-rendering:                                 optimizeLegibility;
+
+    --input--line-height:                           1.4em;
+    --lang-field--width:                            45px;
+
+    --property-value-editor-property-column--width: 130px;
+
+    --link--color:                                  blue;
+    --warning--color:                               var(--primary--color);
+    --warning--background-color:                    #faf6c3;
+    --warning--border-color:                        #ffe884;
+
+    --create--color:                           #00A60E;
+    --create--background-color:                 mintcream;
+    --delete--color:                           #d10c00;
+    --delete--background-color:                #fff5fa;
+}
+
+
+
+/*
+DARK MODE
+
+This is an apple specific media query that works if Dark Mode is enabled in macOS Mojave.
+There's going to be something in Media Queries Level 5, but that is some way off.
+*/
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Used for text color */
+        --primary--color:                               #d0d0d0;
+        /* Used for window background color */
+        --primary--background-color:                    #303030;
+        /*Used for text color for items of lesser importance*/
+        --secondary--color:                             #a0a0a0;
+        /*Used for text color for items of lesser importance*/
+        --tertiary--color:                              #707070;
+        /* Used for the color of separator lines and borders */
+
+        --separator--color:                             #707070;
+
+        /* Used for the color of placeholder text */
+        --placeholder--color:                           rgba(100, 100, 100, 1.0);
+        --alternate--background-color:                  #505050;
+        --alternate--separator--color:                  #505050;
+        --alternate--separator-strong--color:           #686868;
+        --item--hover--background-color:                #707070;
+        --accent--color:                                #408BF9;
+
+        --tooltip--background-color:                    #707070;
+
+        --header-footer--box-shadow:                    none;
+
+        --selected-item--background-color:              var(--accent--color);
+        --selected-item--color:                         white;
+        --selected-menu-item--background-color:         var(--accent--color);
+        --selected-menu-item--color:                    white;
+
+        --btn--hover--color:                            var(--accent--color);
+        --wp-topbar--color:                             var(--primary--color);
+        --topbar--background-color:                     var(--alternate--background-color);
+        --topbar--border:                               1px solid var(--alternate--separator--color);
+
+        --tab--background-color:                #404040;
+        --tab--hover--background-color:         #4c4c4c;
+        --selected-tab--color:                  var(--accent--color);
+        --selected-tab--background-color:       #2d2d2d;
+
+        --inlay-panel--background-color:                var(--alternate--background-color);
+        --inlay-panel--border:                          1px solid var(--alternate--separator--color);
+        --inlay-panel--border-radius:                   3px;
+        --inlay-panel--alternate-background-color:      #fafaff;
+        --view-toolbar--background-color:               var(--alternate--background-color);
+        --view-toolbar--hover--background-color:        #707070;
+        --error--color:                                 #af0002;
+        --outline:                                      #94c0ed solid 2px;
+        --card--box-shadow:                none;
+
+        --widgetmap-view-border-color:                  #454545;
+        --widgetmap-view-header-background-color:       #454545;
+        --widgetmap-view-header-font-weight:            400;
+        --widgetmap-view-header-padding-left:           5px;
+        --gt-tree__row--selected--background-color:     var(--selected-item--background-color);
+        --gt-tree__row--selected--color:                var(--selected-item--color);
+        --gt-tree__row--hover--background-color:        var(--item--hover--background-color);
+        -webkit-font-smoothing:                         subpixel-antialiased;
+        text-rendering:                                 optimizeLegibility;
+        --input--line-height:                           16px;
+        --lang-field--width:                            45px;
+        --property-value-editor-property-column--width: 130px;
+        --link--color:                                  orange;
+        --warning--color:                               #ffe205;
+        --warning--background-color:                    none;
+        --warning--border-color:                        #ffe205;
+
+
+        --create--color:                                #00A60E;
+        --create--background-color:                     #2d2d2d;
+        --delete--color:                                #d10c00;
+        --delete--background-color:                     #2d2d2d;
+
+    }
+
+}
+
+
+
+#kc-page-title, #kc-header-wrapper {
+    display: none;
+}
+
+body, input, textarea, keygen, select, button {
+    font-family:      "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight:      400;
+    color:            var(--primary--color);
+    background-color: var(--primary--background-color);
+    font-size: 14px;
+}
+
+input:matches([type="radio"], [type="checkbox"]) {
+    margin-top:    3px;
+    margin-left:   2px;
+    margin-right:  2px;
+    margin-bottom: 3px;
+}
+
+hr {
+    border:        none;
+    border-top:    1px solid var(--separator--color);
+    margin:        0;
+    margin-top:    10px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size:             1em;
+    margin-bottom:         0.67em;
+    -webkit-margin-before: 0;
+    -webkit-margin-after:  0;
+    -webkit-margin-start:  0;
+    -webkit-margin-end:    0;
+}
+
+em {
+    font-style:  normal;
+    font-weight: 600;
+}
+
+input {
+    border: var(--inlay-panel--border);
+    line-height: 2em;
+}
+
+textarea {
+    resize: none;
+}
+
+button {
+    border: none;
+    margin: 0;
+}
+
+a {
+    color:           var(--link--color);
+    cursor:          pointer;
+    text-decoration: underline;
+}
+
+
+body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+}
+
+input {
+    width: 100%;
+}
+
+.wp-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.wp-login__options {
+    padding-bottom: 1em;
+}
+
+.wp-login__logo {
+    width: 200px; /* 349 */
+    height: 160px; /* 267 */}
+
+.wp-login__form {
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position-x: center;
+    background-position-y: 1em;
+    background-image: url("../img/protege-cloud.png");
+    background-color: var(--inlay-panel--alternate-background-color);
+    border: 5px solid var(--alternate--separator--color);
+    width: 350px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 240px;
+    padding-bottom: 20px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin: 2em;
+}
+
+.wp-login__info {
+
+}
+
+.wp-login__form .gwt-TextBox {
+    border: var(--inlay-panel--border);
+}
+
+.wp-login__form .gwt-PasswordTextBox {
+    border: var(--inlay-panel--border);
+}
+
+.wp-login__footnote {
+    text-align:   center;
+    font-size:    10px;
+    color: #c0c0c0;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.wp-login__message {
+    font-size:      18px;
+    text-align:     center;
+}
+
+.wp-login__forgot-user-name-or-password {
+    padding-top:     20px;
+    padding-right:   0;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1em;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 1.2em;
+    padding-bottom: 0.2em;
+}
+
+.alert {
+    padding-bottom: 0.7em;
+}
+
+.alert-error {
+    color: var(--error--color);
+}
+
+.kc-feedback-text {
+    margin-bottom: 0.1em;
+}
+
+
+.wp-btn {
+    border: none;
+    border-radius: 2px;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease-in-out;
+    -moz-transition: background-color 0.15s ease-in-out;
+    -webkit-transition: background-color 0.15s ease-in-out;
+}
+
+.wp-btn--page {
+    height: 2.4em;
+    line-height: 2.4em;
+    padding: 0 20px;
+    min-width: 8em;
+
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+.wp-btn--page-small {
+    background-color: transparent;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.wp-btn--page-small:hover {
+    color: literal("var(--btn--hover--color)");
+}
+
+
+
+.wp-btn--input {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #e0e0e0;
+    color: #505050;
+}
+
+.wp-btn--input:hover {
+    background-color: #d5d5d5;
+}
+
+.wp-btn--dialog {
+    flex-grow: 0;
+    min-width: 100px;
+    height: 1.8em;
+    line-height: 1.8em;
+    padding: 0 20px;
+
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+.wp-btn--primary {
+    color: #fff;
+    background-color: #6c1a91;
+}
+
+.wp-btn--primary:hover {
+    background-color: #501c70;
+}
+
+.wp-btn--primary:disabled {
+    background-color: lightgray;
+    cursor: default;
+}
+
+.wp-btn--secondary {
+    color:            #fff;
+    background-color: #0089bd;
+}
+
+.wp-btn--secondary:hover {
+    background-color: #0073a5;
+}
+
+.wp-btn--secondary:disabled {
+    background-color: lightgray;
+    cursor: default;
+}
+
+.wp-btn--alternate {
+    color: #fff;
+    background-color: #db5e33;
+}
+
+.wp-btn--alternate:hover {
+    background-color: #bc4d26;
+}
+
+.wp-btn--alternate:disabled {
+    background-color: lightgray;
+    cursor: default;
+}
+
+.wp-btn--escape {
+    color: #fff;
+    background-color: #959ea7;
+}
+
+.wp-btn--escape:hover {
+    background-color: #737c85;
+}
+
+.wp-btn--accept {
+    color: #fff;
+    background-color: #6c1a91;
+}
+
+.wp-btn--accept:hover {
+    background-color: #501c70;
+}
+
+.wp-btn-add-tab {
+    border: none;
+    background-color: transparent;
+    font-weight: 400;
+}
+
+.wp-btn-add-tab:hover {
+    background-color: #505050;
+    color: white;
+    cursor: pointer;
+}
+
+.wp-btn-add {
+    background-color: #aaaaaa;
+    background-image: plusIconUrl;
+    background-repeat: no-repeat;
+    background-position-x: -1px;
+    background-position-y: -1px;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: 18px;
+}
+.wp-btn-add:hover {
+    background-color: literal("var(--create--color)");
+}
+
+.wp-btn-add:focus {
+    background-color: literal("var(--create--color)");
+    outline-offset: 0;
+}
+
+.wp-btn-delete {
+    background-color: #aaaaaa;
+    background-image: crossIconUrl;
+    background-repeat: no-repeat;
+    background-position-x: -1px;
+    background-position-y: -1px;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.wp-btn-delete:hover {
+    background-color: literal("var(--delete--color)");
+}
+
+.wp-btn-delete:focus {
+    background-color: literal("var(--delete--color)");
+    outline-offset: 0;
+}
+
+.wp-btn-delete:disabled {
+    background-color: #dddddd;
+    cursor: default;
+}
+
+.wp-topbar__btn {
+    border: none;
+    line-height: 18px;
+    cursor: pointer;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 400;
+    background-color: transparent;
+    color: inherit;
+}
+
+.wp-topbar__btn:hover {
+    color: literal("var(--btn--hover--color)");
+}
+
+.wp-btn-up {
+    background-color: #aaaaaa;
+    background-image: upArrowIconUrl;
+    background-repeat: no-repeat;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.wp-btn-up:hover {
+    background-color: #0300d8;
+}
+
+.wp-btn-up:disabled {
+    background-color: #a0a0a0;
+    opacity: 0.3;
+}
+
+
+.wp-btn-down {
+    background-color: #aaaaaa;
+    background-image: downArrowIconUrl;
+    background-repeat: no-repeat;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.wp-btn-down:hover {
+    background-color: #0300d8;
+}
+
+.wp-btn-down:disabled {
+    background-color: #a0a0a0;
+    opacity: 0.3;
+}
+
+.wp-btn-g {
+    transition: background-color 0.15s ease-in-out;
+    -moz-transition: background-color 0.15s ease-in-out;
+    -webkit-transition: background-color 0.15s ease-in-out;
+
+    background-color: literal("var(--primary--color)");
+    mask-position: center;
+    -webkit-mask-position: center;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-origin: border-box;
+    width: 40px;
+    height: 24px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.wp-btn-g:hover {
+    background-color: literal("var(--btn--hover--color)");
+    outline: 1px solid #505050 !important;
+}
+
+.wp-btn-g--create:hover {
+    background-color: literal("var(--create--color)");
+}
+
+.wp-btn-g--delete:hover {
+    background-color: literal("var(--delete--color)");
+}
+
+.wp-btn-g:disabled {
+    background-color: #a0a0a0;
+    opacity: 0.3;
+}
+
+.wp-btn-g--small {
+    width: 18px;
+    height: 18px;
+}
+
+.wp-btn-g--sync-selection {
+    mask-image:  syncSelectionIconUrl;
+    -webkit-mask-image:  syncSelectionIconUrl;
+}
+
+.wp-btn-g--move-to-parent {
+    mask-image: moveToParentIconUrl;
+    -webkit-mask-image:  moveToParentIconUrl;
+}
+
+.wp-btn-g--move-to-sibling {
+    mask-image:      moveToSiblingIconUrl;
+    -webkit-mask-image:      moveToSiblingIconUrl;
+}
+
+.wp-btn-g--move-to-child {
+    mask-image:  moveToChildIconUrl;
+    -webkit-mask-image:  moveToChildIconUrl;
+}
+
+.wp-btn-g--show-hierarchy {
+    mask-image:  hierarchyIconUrl;
+    -webkit-mask-image:  hierarchyIconUrl;
+}
+
+.wp-btn-g--search {
+    mask-image:  searchIconUrl;
+    -webkit-mask-image:  searchIconUrl;
+}
+
+.wp-btn-g--create-class {
+    mask-image: createIconUrl;
+    -webkit-mask-image: createIconUrl;
+}
+
+.wp-btn-g--delete-class {
+    mask-image: deleteIconUrl;
+    -webkit-mask-image: deleteIconUrl;
+}
+
+.wp-btn-g--create-individual {
+    mask-image: createIndividualIconUrl;
+    -webkit-mask-image: createIndividualIconUrl;
+}
+
+.wp-btn-g--delete-individual {
+    mask-image: deleteIndividualIconUrl;
+    -webkit-mask-image: deleteIndividualIconUrl;
+}
+
+.wp-btn-g--create-property {
+    mask-image: createPropertyIconUrl;
+    -webkit-mask-image: createPropertyIconUrl;
+}
+
+.wp-btn-g--delete-property {
+    mask-image: deletePropertyIconUrl;
+    -webkit-mask-image: deletePropertyIconUrl;
+}
+
+.wp-btn-g--refresh {
+    mask-image: refreshIconUrl;
+    -webkit-mask-image: refreshIconUrl;
+}
+
+.wp-btn-g--create-thread {
+    mask-image: createThreadIconUrl;
+    -webkit-mask-image: createThreadIconUrl;
+}
+
+.wp-btn-g--editor {
+    mask-image: editorIconUrl;
+    -webkit-mask-image: editorIconUrl;
+}
+
+.wp-btn-g--changes {
+    mask-image: changesIconUrl;
+    -webkit-mask-image: changesIconUrl;
+}
+
+.wp-btn-g--container {
+    display: flex;
+    border-radius: 2px;
+}
+
+.wp-btn-g--container:hover {
+    background-color: literal("var(--view-toolbar--hover--background-color)");
+}
+
+.wp-btn-g--viz {
+    mask-image: vizIconUrl;
+    -webkit-mask-image: vizIconUrl;
+}
+
+.wp-btn-g--download {
+    mask-image: downloadIconUrl;
+    -webkit-mask-image: downloadIconUrl;
+
+}
+
+.wp-btn-g--settings {
+    mask-image: settingsIconUrl;
+    -webkit-mask-image: settingsIconUrl;
+}
+
+.wp-btn-g--filter {
+    mask-image: filterIconUrl;
+    -webkit-mask-image: filterIconUrl;
+}
+
+.wp-btn-g--cross {
+    mask-image: crossIconUrl;
+    -webkit-mask-image: crossIconUrl;
+}
