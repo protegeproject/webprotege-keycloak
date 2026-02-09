@@ -1290,7 +1290,7 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {},
-  "loginTheme": "webprotege-theme",
+  "loginTheme": "webprotege",
   "eventsEnabled": true,
   "eventsListeners": [],
   "enabledEventTypes": [
