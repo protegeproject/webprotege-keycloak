@@ -1232,7 +1232,7 @@
       "description": "Represents the WebProtégé UI",
       "rootUrl": "",
       "adminUrl": "",
-      "baseUrl": "http://keycloak:8080/keycloak",
+      "baseUrl": "http://webprotege-local.edu",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": true,
