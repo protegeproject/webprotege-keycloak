@@ -1,0 +1,19 @@
+# Maven build output
+spi/target/
+
+# JVM
+hsperfdata_keycloak/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Serena
+.serena/
+
+# OS
+.DS_Store
