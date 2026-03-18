@@ -34,7 +34,7 @@
 
             <#if realm.resetPasswordAllowed>
                 <div class="wp-forgot-password">
-                    <a tabindex="5" href="${url.loginResetCredentialsUrl}">Forgot username or password?</a>
+                    <a tabindex="5" href="${url.loginResetCredentialsUrl}">Forgot password?</a>
                 </div>
             </#if>
         </form>
