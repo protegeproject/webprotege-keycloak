@@ -10,6 +10,7 @@ Keycloak configuration for WebProtege. This repository contains:
 
 - Java 17+
 - Maven 3.8+
+- Docker
 
 ## Building the Plugin
 
@@ -24,13 +25,21 @@ This produces `spi/target/webprotege-credential-check-authenticator-1.0.0.jar`.
 
 ## Docker Build
 
-The `Dockerfile` packages the theme and plugin into a custom Keycloak image:
+The `Dockerfile` packages the theme, plugin, and realm configuration into a custom Keycloak image:
 
 ```dockerfile
 FROM keycloak/keycloak:26.1
 COPY ./webprotege /opt/keycloak/themes/webprotege
 COPY ./spi/target/webprotege-credential-check-authenticator-1.0.0.jar /opt/keycloak/providers/
+COPY ./webprotege.json /opt/keycloak/import/webprotege.json
 RUN /opt/keycloak/bin/kc.sh build
+```
+
+To build locally:
+
+```bash
+cd spi && mvn clean package && cd ..
+docker build -t protegeproject/webprotege-keycloak:1.0.0 .
 ```
 
 ## Deployment
