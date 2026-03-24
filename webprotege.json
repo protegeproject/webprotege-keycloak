@@ -1759,7 +1759,7 @@
           "protocolMapper": "oidc-usermodel-attribute-mapper",
           "consentRequired": false,
           "config": {
-            "user.attribute": "mongo_id",
+            "user.attribute": "webprotege_username",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "preferred_username",
