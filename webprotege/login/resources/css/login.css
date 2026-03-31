@@ -26,7 +26,7 @@ body.wp-login-page {
 .wp-signup-btn {
     display: inline-block;
     padding: 10px 24px;
-    background: #e74c3c;
+    background: #db5e33;
     color: #ffffff;
     text-decoration: none;
     border-radius: 4px;
@@ -36,7 +36,7 @@ body.wp-login-page {
 }
 
 .wp-signup-btn:hover {
-    background: #c0392b;
+    background: #c4512a;
     color: #ffffff;
     text-decoration: none;
 }
@@ -233,7 +233,7 @@ body.wp-login-page {
     display: block;
     width: 100%;
     padding: 12px;
-    background: #7b4bab;
+    background: #6c1a91;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -244,11 +244,11 @@ body.wp-login-page {
 }
 
 .wp-submit-btn:hover {
-    background: #6a3d96;
+    background: #5b1679;
 }
 
 .wp-submit-btn:active {
-    background: #5a3380;
+    background: #4d1367;
 }
 
 /* ===== Logout message ===== */
