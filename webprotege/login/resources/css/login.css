@@ -30,13 +30,17 @@ body.wp-login-page {
 
 .wp-signup-btn {
     display: inline-block;
-    padding: 10px 24px;
+    height: 2.4em;
+    line-height: 2.4em;
+    padding: 0 20px;
+    min-width: 8em;
     background: #db5e33;
     color: #ffffff;
     text-decoration: none;
     border-radius: 4px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
     transition: background 0.2s ease;
 }
 
@@ -237,13 +241,17 @@ body.wp-login-page {
 .wp-submit-btn {
     display: block;
     width: 100%;
-    padding: 12px;
+    height: 2.4em;
+    line-height: 2.4em;
+    padding: 0 20px;
+    min-width: 8em;
     background: #6c1a91;
     color: #ffffff;
     border: none;
     border-radius: 4px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
+    letter-spacing: 0.02em;
     cursor: pointer;
     transition: background 0.2s ease;
 }
