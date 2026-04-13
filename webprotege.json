@@ -618,10 +618,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "/*"
+        "http://webprotege-local.edu/*"
       ],
       "webOrigins": [
-        "/*"
+        "http://webprotege-local.edu"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -943,9 +943,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
-      "redirectUris": [
-        "*"
-      ],
+      "redirectUris": [],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1168,12 +1166,8 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
-      "redirectUris": [
-        "/*"
-      ],
-      "webOrigins": [
-        "/*"
-      ],
+      "redirectUris": [],
+      "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -1238,13 +1232,10 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://webprotege-local.edu/*",
-        "http://webprotege-local.edu*",
-        "http://webprotege-local.edu**",
-        "http://webprotege-local.edu/webprotege/*"
+        "http://webprotege-local.edu/*"
       ],
       "webOrigins": [
-        "http://webprotege-local.edu/webprotege"
+        "http://webprotege-local.edu"
       ],
       "notBefore": 0,
       "bearerOnly": false,
