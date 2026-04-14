@@ -30,10 +30,8 @@ jobs:
         run: |
           VERSION=${{ steps.get-version.outputs.version }}
           find . -name 'pom.xml' -exec mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false -f {} \;
-      - name: Build SPI plugin
-        run: mvn --batch-mode -pl spi clean package
       - name: Build and push Docker image
-        run: mvn --batch-mode package install
+        run: mvn --batch-mode install
       - name: Release
         uses: softprops/action-gh-release@v1
         env:
