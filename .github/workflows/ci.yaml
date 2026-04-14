@@ -1,12 +1,13 @@
-name: Test
-
 on:
   push:
+    branches-ignore:
+      - main
   pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
       - name: Build image
