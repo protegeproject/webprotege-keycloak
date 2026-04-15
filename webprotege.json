@@ -313,7 +313,8 @@
           "composite": false,
           "clientRole": true,
           "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
+          "attributes": {},
+          "description": "Grants full administrative access to WebProtege. Assigning this role to a user adds the application-level capabilities required to manage global settings, user accounts, role assignments, and to perform any other admin-only operation.\n\nUse this role to bootstrap the first admin after a fresh install: assign it to one user through the Keycloak admin console, then that user can manage all further role assignments from within WebProtege itself.\n\nTechnical detail: the webprotege-authorization-service reads resource_access.webprotege.roles from the JWT on every request and maps role names to capabilities via BuiltInRoleOracle. 'SystemAdmin' maps to BuiltInRole.SYSTEM_ADMIN, which is a composite role whose closure includes UserAdmin, ProjectCreator, ProjectUploader, AccountCreator and all their capabilities (EditApplicationSettings, RebuildPermissions, ViewAnyUserDetails, DeleteAnyAccount, ResetAnyUserPassword, MoveAnyProjectToTrash, SubstituteUser, CreateEmptyProject, UploadProject, CreateAccount)."
         }
       ],
       "user-management": [],
