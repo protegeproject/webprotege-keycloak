@@ -320,25 +320,6 @@
       "security-admin-console": [],
       "machine-client": [],
       "admin-cli": [],
-      "Icatx_application": [
-        {
-          "id": "03e5aaad-342c-45ac-bae3-9e235933b717",
-          "name": "uma_protection",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "12a189c5-8864-492e-a94a-52512eee9306",
-          "attributes": {}
-        },
-        {
-          "id": "33993a1c-c933-401e-8b99-afd7aa07943c",
-          "name": "ICAT_APPLICATION",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "12a189c5-8864-492e-a94a-52512eee9306",
-          "attributes": {}
-        }
-      ],
       "account-console": [],
       "broker": [],
       "account": [
@@ -423,28 +404,6 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "users": [
-    {
-      "id": "e58d95bb-5215-44f4-9de6-6281592c1349",
-      "username": "service-account-icatx_application",
-      "emailVerified": false,
-      "createdTimestamp": 1743767598887,
-      "enabled": true,
-      "totp": false,
-      "serviceAccountClientId": "Icatx_application",
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "default-roles-webprotege"
-      ],
-      "clientRoles": {
-        "Icatx_application": [
-          "uma_protection",
-          "ICAT_APPLICATION"
-        ]
-      },
-      "notBefore": 0,
-      "groups": []
-    },
     {
       "id": "726b809e-72e4-4502-b81e-cb66f79a2eec",
       "username": "service-account-admin-cli",
@@ -537,81 +496,6 @@
     ]
   },
   "clients": [
-    {
-      "id": "12a189c5-8864-492e-a94a-52512eee9306",
-      "clientId": "Icatx_application",
-      "name": "",
-      "description": "",
-      "rootUrl": "",
-      "adminUrl": "",
-      "baseUrl": "",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
-      "redirectUris": [
-        "http://webprotege-local.edu/*"
-      ],
-      "webOrigins": [
-        "http://webprotege-local.edu"
-      ],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": true,
-      "authorizationServicesEnabled": true,
-      "publicClient": false,
-      "frontchannelLogout": true,
-      "protocol": "openid-connect",
-      "attributes": {
-        "realm_client": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "client.secret.creation.time": "1743767598",
-        "backchannel.logout.session.required": "true",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false"
-      },
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "defaultClientScopes": [
-        "web-origins",
-        "service_account",
-        "acr",
-        "roles",
-        "profile",
-        "basic",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ],
-      "authorizationSettings": {
-        "allowRemoteResourceManagement": true,
-        "policyEnforcementMode": "ENFORCING",
-        "resources": [
-          {
-            "name": "Default Resource",
-            "type": "urn:Icatx_application:resources:default",
-            "ownerManagedAccess": false,
-            "attributes": {},
-            "uris": [
-              "/*"
-            ]
-          }
-        ],
-        "policies": [],
-        "scopes": [],
-        "decisionStrategy": "UNANIMOUS"
-      }
-    },
     {
       "id": "fcb17f7e-6208-443c-86cc-84ff3d503db1",
       "clientId": "account",
