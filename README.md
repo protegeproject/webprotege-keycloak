@@ -72,6 +72,26 @@ staging, and production by setting `SERVER_HOST` in the deployment environment.
 | `KC_HTTP_RELATIVE_PATH` | Yes | *(none)* | Keycloak's HTTP relative path (e.g. `/keycloak`) |
 | `SERVER_HOST` | No | *(none)* | Public hostname; when set, client URIs and the realm frontend URL are updated to match |
 
+## Roles
+
+The realm defines a single application-level role on the `webprotege`
+client: **`SystemAdmin`**.  This is the bootstrap admin role for new
+installs — assigning it to a user grants full administrative access to
+WebProtege (manage application settings, create projects, edit roles,
+delete accounts, etc.).
+
+See the [webprotege-deploy README](../webprotege-deploy/README.md#first-admin-bootstrap)
+for step-by-step instructions on assigning the role to the first admin.
+
+All other authorization in WebProtege is managed inside the application
+itself via the authorization service's `RoleAssignment` collection and
+the Application Settings UI.  Keycloak roles are used only for the
+bootstrap admin — this keeps identity (Keycloak) and authorization
+(WebProtege) cleanly separated.
+
+Automating the initial admin assignment on fresh installs is tracked in
+[webprotege-authorization-service#36](https://github.com/protegeproject/webprotege-authorization-service/issues/36).
+
 ## Deployment
 
 For full deployment instructions, see the [webprotege-deploy README](../webprotege-deploy/README.md).
