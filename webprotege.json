@@ -524,7 +524,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Backs the user self-service account page at /realms/webprotege/account/ (change password, update profile, view active sessions)."
     },
     {
       "id": "cf517ac7-282b-400c-a231-2492868267f7",
@@ -581,7 +582,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Backs the modern Keycloak account management console UI, the React-based replacement for the classic /account page."
     },
     {
       "id": "4da7cc98-66d3-44d3-b7ae-3ed981adf1b5",
@@ -694,7 +696,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Used by kcadm.sh for realm administration from the command line. The WebProtege entrypoint authenticates as this client when applying post-import realm patches."
     },
     {
       "id": "a0bb6442-27e5-44f3-87f3-8af6109e3eff",
@@ -734,7 +737,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Used internally when brokering identities from external OIDC/SAML providers. Required by Keycloak even when no external identity providers are configured."
     },
     {
       "id": "02dad5bf-1f7c-455d-93ee-5950f7e89631",
@@ -774,7 +778,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Exposes the Keycloak Admin REST API for this realm. Confidential clients acquire tokens for this client to manage realm objects programmatically (see user-management)."
     },
     {
       "id": "2d8006e4-c3f6-4b17-a4d5-7774d737a994",
@@ -841,13 +846,14 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Backs the Keycloak Admin Console UI at /admin/ where realm administrators manage users, roles, clients, and realm-level configuration."
     },
     {
       "id": "ac4a2ffb-4677-44bf-9bb8-551e965142c6",
       "clientId": "user-management",
       "name": "User Management",
-      "description": "This client is used by user management microservice to fetch user data.",
+      "description": "Confidential OIDC client used by webprotege-user-management-service to call the Keycloak Admin API (user CRUD, password resets, role assignments). Client secret is wired through .env as ADMIN_CLI_SECRET.",
       "rootUrl": "",
       "adminUrl": "",
       "baseUrl": "",
@@ -913,7 +919,7 @@
       "id": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
       "clientId": "webprotege",
       "name": "WebProt\u00e9g\u00e9",
-      "description": "Represents the WebProt\u00e9g\u00e9 UI",
+      "description": "Public OIDC client for the WebProtege web UI. Users authenticate against this client during login and registration. Its protocol mappers shape the JWT claims that downstream services read (preferred_username, email).",
       "rootUrl": "",
       "adminUrl": "",
       "baseUrl": "http://webprotege-local.edu",
