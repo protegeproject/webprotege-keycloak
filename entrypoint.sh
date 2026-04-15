@@ -202,6 +202,12 @@ echo "[entrypoint] Checking realm configuration..."
 # The delete-then-create approach (rather than an in-place update) is used
 # because kcadm does not reliably support partial updates to protocol mapper
 # config fields.
+#
+# Note: this mapper maps the 'webprotege_username' user attribute to the
+# 'preferred_username' JWT claim.  The attribute is set by the legacy user
+# migration process for migrated users, and by the
+# WebprotegeUsernameAttributeEventListener SPI for newly registered users
+# (which sets the attribute to the Keycloak username at registration time).
 # ---------------------------------------------------------------------------
 fix_username_mapper() {
   local scope_id mapper_id current_attr
