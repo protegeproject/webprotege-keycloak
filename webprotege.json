@@ -1,8 +1,8 @@
 {
   "id": "webprotege",
   "realm": "webprotege",
-  "displayName": "WebProtégé",
-  "displayNameHtml": "WebProtégé",
+  "displayName": "WebProt\u00e9g\u00e9",
+  "displayNameHtml": "WebProt\u00e9g\u00e9",
   "notBefore": 1706186910,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -50,15 +50,6 @@
   "roles": {
     "realm": [
       {
-        "id": "8a5547b8-dc0e-4a4a-b6dd-c0f3622c3efa",
-        "name": "SYSTEM_ADMIN",
-        "description": "",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "webprotege",
-        "attributes": {}
-      },
-      {
         "id": "561b67b1-3f65-4d7b-9814-57b302ca0cdb",
         "name": "uma_authorization",
         "description": "${role_uma_authorization}",
@@ -76,14 +67,9 @@
           "realm": [
             "offline_access",
             "uma_authorization",
-            "user",
-            "SYSTEM_ADMIN"
+            "user"
           ],
-          "client": {
-            "webprotege": [
-              "user"
-            ]
-          }
+          "client": {}
         },
         "clientRole": false,
         "containerId": "webprotege",
@@ -101,14 +87,6 @@
       {
         "id": "24adc185-0e79-43a9-a511-32c4a382c3cc",
         "name": "user",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "webprotege",
-        "attributes": {}
-      },
-      {
-        "id": "0d5dab56-fc48-4e75-b5d2-a09f1dff59ee",
-        "name": "admin",
         "composite": false,
         "clientRole": false,
         "containerId": "webprotege",
@@ -330,50 +308,8 @@
       ],
       "webprotege": [
         {
-          "id": "9af3e966-9a70-467e-9713-596fe71b1cfc",
-          "name": "user",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
-          "id": "bcd9d658-2d68-4dc0-a4e9-0db4399fdd7b",
-          "name": "admin",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
           "id": "c96478e5-e778-4aad-941a-eb9a9b3abda7",
           "name": "SystemAdmin",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
-          "id": "83399375-fb11-44f3-b3e8-f8c8a45a41bf",
-          "name": "ICAT_APPLICATION",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
-          "id": "f3ffa0df-7bd9-42ac-8863-98a1574234b6",
-          "name": "ProjectCreator",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
-          "id": "67c5acde-af15-40b8-9616-089c9aa59259",
-          "name": "ProjectManager",
-          "description": "someone that can manage the entire project",
           "composite": false,
           "clientRole": true,
           "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
@@ -501,9 +437,6 @@
         "default-roles-webprotege"
       ],
       "clientRoles": {
-        "webprotege": [
-          "ICAT_APPLICATION"
-        ],
         "Icatx_application": [
           "uma_protection",
           "ICAT_APPLICATION"
@@ -1222,8 +1155,8 @@
     {
       "id": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
       "clientId": "webprotege",
-      "name": "WebProtégé",
-      "description": "Represents the WebProtégé UI",
+      "name": "WebProt\u00e9g\u00e9",
+      "description": "Represents the WebProt\u00e9g\u00e9 UI",
       "rootUrl": "",
       "adminUrl": "",
       "baseUrl": "http://webprotege-local.edu",
