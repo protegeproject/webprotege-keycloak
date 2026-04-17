@@ -2,46 +2,120 @@ name: Release
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'protegeproject-bot[bot]' }}
+    outputs:
+      version: ${{ steps.release-outputs.outputs.version }}
+      service: ${{ steps.release-outputs.outputs.service }}
+
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{secrets.DOCKER_USERNAME}}
           password: ${{secrets.DOCKER_PASSWORD}}
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.PROTEGEPROJECT_BOT_APP_ID }}
+          private-key: ${{ secrets.PROTEGEPROJECT_BOT_APP_PRIVATE_KEY }}
       - uses: actions/checkout@v4
-      - name: Set up Java
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.head_ref }}
+      - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'adopt'
-      - name: Extract version from tag
-        id: get-version
+          server-id: docker.io
+          server-username: DOCKER_USERNAME
+          server-password: DOCKER_PASSWORD
+
+      # Read the version from pom.xml and strip the -SNAPSHOT suffix to
+      # produce the release version.  For example, 2.0.0-SNAPSHOT becomes
+      # 2.0.0.  If there is no -SNAPSHOT suffix the version is used as-is.
+      - name: Determine release version
+        id: release-version
         run: |
-          VERSION=${GITHUB_REF_NAME#v}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Version: $VERSION"
-      - name: Set version in pom.xml files
+          current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "Current pom version: $current_version"
+          release_version=$(echo "$current_version" | sed -E 's/-SNAPSHOT$//')
+          echo "Release version: $release_version"
+          echo "release_version=$release_version" >> $GITHUB_OUTPUT
+
+      # Set pom.xml to the release version (without -SNAPSHOT), commit,
+      # and tag.  This is the commit that the Docker image is built from.
+      - name: Set release version in pom.xml
         run: |
-          VERSION=${{ steps.get-version.outputs.version }}
-          find . -name 'pom.xml' -exec mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false -f {} \;
-      - name: Build SPI plugin
-        run: mvn --batch-mode -pl spi clean package
-      - name: Build and push Docker image
-        run: mvn --batch-mode package install
+          find . -name 'pom.xml' -exec mvn versions:set \
+            -DnewVersion=${{ steps.release-version.outputs.release_version }} \
+            -DgenerateBackupPoms=false -f {} \;
+      - name: Commit and tag release
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          # If the pom already had the release version (no -SNAPSHOT suffix),
+          # there is nothing to commit — just tag the current HEAD.
+          git diff --cached --quiet || \
+            git commit -m "Release ${{ steps.release-version.outputs.release_version }}"
+          git tag ${{ steps.release-version.outputs.release_version }}
+          git push origin HEAD:${GITHUB_REF##*/}
+          git push origin ${{ steps.release-version.outputs.release_version }}
+
+      - name: Build Docker image
+        run: mvn --batch-mode package
+      - name: Run entrypoint integration test
+        run: ./test-entrypoint.sh protegeproject/webprotege-keycloak:${{ steps.release-version.outputs.release_version }}
+      - name: Push Docker image
+        run: docker push protegeproject/webprotege-keycloak:${{ steps.release-version.outputs.release_version }}
       - name: Release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ steps.release-version.outputs.release_version }}
           generate_release_notes: true
 
+      # After the release, bump the patch version and add -SNAPSHOT to
+      # prepare the pom for the next development cycle.  For example,
+      # after releasing 2.0.0 the pom is set to 2.0.1-SNAPSHOT.
+      - name: Prepare next development version
+        run: |
+          released=${{ steps.release-version.outputs.release_version }}
+          IFS='.' read -r -a parts <<< "$released"
+          parts[2]=$((parts[2] + 1))
+          next_snapshot="${parts[0]}.${parts[1]}.${parts[2]}-SNAPSHOT"
+          echo "Next development version: $next_snapshot"
+          find . -name 'pom.xml' -exec mvn versions:set \
+            -DnewVersion=$next_snapshot \
+            -DgenerateBackupPoms=false -f {} \;
+          git add .
+          git commit -m "Prepare next development version ($next_snapshot)"
+          git push origin HEAD:${GITHUB_REF##*/}
+
+      - name: Set outputs
+        id: release-outputs
+        run: |
+          echo "version=${{ steps.release-version.outputs.release_version }}" >> $GITHUB_OUTPUT
+          echo "service=webprotege-keycloak" >> $GITHUB_OUTPUT
+
+  notify-bump:
+    needs: build
+    uses: ./.github/workflows/notify-deploy-project.yaml
+    with:
+      version: ${{ needs.build.outputs.version }}
+      service: ${{ needs.build.outputs.service }}
+      branch_var: ${{vars.BUMP_WEBPROTEGE_BRANCH}}
+    secrets:
+      PROTEGE_PROJECT_CLIENT_ID: ${{ secrets.PROTEGE_PROJECT_CLIENT_ID }}
+      PROTEGE_PROJECT_CLIENT_SECRET: ${{ secrets.PROTEGE_PROJECT_CLIENT_SECRET }}
 
 env:
   DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}

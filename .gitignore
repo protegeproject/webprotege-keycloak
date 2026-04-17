@@ -1,5 +1,6 @@
 # Maven build output
 spi/target/
+*.versionsBackup
 
 # JVM
 hsperfdata_keycloak/

@@ -1,0 +1,16 @@
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t protegeproject/webprotege-keycloak:test .
+      - name: Run entrypoint integration test
+        run: ./test-entrypoint.sh

@@ -1,8 +1,8 @@
 {
   "id": "webprotege",
   "realm": "webprotege",
-  "displayName": "WebProtégé",
-  "displayNameHtml": "WebProtégé",
+  "displayName": "WebProt\u00e9g\u00e9",
+  "displayNameHtml": "WebProt\u00e9g\u00e9",
   "notBefore": 1706186910,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -50,15 +50,6 @@
   "roles": {
     "realm": [
       {
-        "id": "8a5547b8-dc0e-4a4a-b6dd-c0f3622c3efa",
-        "name": "SYSTEM_ADMIN",
-        "description": "",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "webprotege",
-        "attributes": {}
-      },
-      {
         "id": "561b67b1-3f65-4d7b-9814-57b302ca0cdb",
         "name": "uma_authorization",
         "description": "${role_uma_authorization}",
@@ -76,14 +67,9 @@
           "realm": [
             "offline_access",
             "uma_authorization",
-            "user",
-            "SYSTEM_ADMIN"
+            "user"
           ],
-          "client": {
-            "webprotege": [
-              "user"
-            ]
-          }
+          "client": {}
         },
         "clientRole": false,
         "containerId": "webprotege",
@@ -101,14 +87,6 @@
       {
         "id": "24adc185-0e79-43a9-a511-32c4a382c3cc",
         "name": "user",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "webprotege",
-        "attributes": {}
-      },
-      {
-        "id": "0d5dab56-fc48-4e75-b5d2-a09f1dff59ee",
-        "name": "admin",
         "composite": false,
         "clientRole": false,
         "containerId": "webprotege",
@@ -330,79 +308,18 @@
       ],
       "webprotege": [
         {
-          "id": "9af3e966-9a70-467e-9713-596fe71b1cfc",
-          "name": "user",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
-          "id": "bcd9d658-2d68-4dc0-a4e9-0db4399fdd7b",
-          "name": "admin",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
           "id": "c96478e5-e778-4aad-941a-eb9a9b3abda7",
           "name": "SystemAdmin",
           "composite": false,
           "clientRole": true,
           "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
-          "id": "83399375-fb11-44f3-b3e8-f8c8a45a41bf",
-          "name": "ICAT_APPLICATION",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
-          "id": "f3ffa0df-7bd9-42ac-8863-98a1574234b6",
-          "name": "ProjectCreator",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
-        },
-        {
-          "id": "67c5acde-af15-40b8-9616-089c9aa59259",
-          "name": "ProjectManager",
-          "description": "someone that can manage the entire project",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
-          "attributes": {}
+          "attributes": {},
+          "description": "Grants full admin access to WebProtege. Assign to the first user after a fresh install to bootstrap admin access; that user can then manage further role assignments within WebProtege. Maps to BuiltInRole.SYSTEM_ADMIN via resource_access in the JWT."
         }
       ],
       "user-management": [],
       "security-admin-console": [],
-      "machine-client": [],
       "admin-cli": [],
-      "Icatx_application": [
-        {
-          "id": "03e5aaad-342c-45ac-bae3-9e235933b717",
-          "name": "uma_protection",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "12a189c5-8864-492e-a94a-52512eee9306",
-          "attributes": {}
-        },
-        {
-          "id": "33993a1c-c933-401e-8b99-afd7aa07943c",
-          "name": "ICAT_APPLICATION",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "12a189c5-8864-492e-a94a-52512eee9306",
-          "attributes": {}
-        }
-      ],
       "account-console": [],
       "broker": [],
       "account": [
@@ -488,31 +405,6 @@
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "users": [
     {
-      "id": "e58d95bb-5215-44f4-9de6-6281592c1349",
-      "username": "service-account-icatx_application",
-      "emailVerified": false,
-      "createdTimestamp": 1743767598887,
-      "enabled": true,
-      "totp": false,
-      "serviceAccountClientId": "Icatx_application",
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "default-roles-webprotege"
-      ],
-      "clientRoles": {
-        "webprotege": [
-          "ICAT_APPLICATION"
-        ],
-        "Icatx_application": [
-          "uma_protection",
-          "ICAT_APPLICATION"
-        ]
-      },
-      "notBefore": 0,
-      "groups": []
-    },
-    {
       "id": "726b809e-72e4-4502-b81e-cb66f79a2eec",
       "username": "service-account-admin-cli",
       "emailVerified": false,
@@ -539,22 +431,6 @@
           "view-authorization"
         ]
       },
-      "notBefore": 0,
-      "groups": []
-    },
-    {
-      "id": "b2a6c7a6-4645-449e-9c7f-5b09d1d03a18",
-      "username": "service-account-machine-client",
-      "emailVerified": false,
-      "createdTimestamp": 1711102081285,
-      "enabled": true,
-      "totp": false,
-      "serviceAccountClientId": "machine-client",
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "default-roles-webprotege"
-      ],
       "notBefore": 0,
       "groups": []
     },
@@ -605,81 +481,6 @@
   },
   "clients": [
     {
-      "id": "12a189c5-8864-492e-a94a-52512eee9306",
-      "clientId": "Icatx_application",
-      "name": "",
-      "description": "",
-      "rootUrl": "",
-      "adminUrl": "",
-      "baseUrl": "",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
-      "redirectUris": [
-        "http://webprotege-local.edu/*"
-      ],
-      "webOrigins": [
-        "http://webprotege-local.edu"
-      ],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": true,
-      "authorizationServicesEnabled": true,
-      "publicClient": false,
-      "frontchannelLogout": true,
-      "protocol": "openid-connect",
-      "attributes": {
-        "realm_client": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "client.secret.creation.time": "1743767598",
-        "backchannel.logout.session.required": "true",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false"
-      },
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "defaultClientScopes": [
-        "web-origins",
-        "service_account",
-        "acr",
-        "roles",
-        "profile",
-        "basic",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ],
-      "authorizationSettings": {
-        "allowRemoteResourceManagement": true,
-        "policyEnforcementMode": "ENFORCING",
-        "resources": [
-          {
-            "name": "Default Resource",
-            "type": "urn:Icatx_application:resources:default",
-            "ownerManagedAccess": false,
-            "attributes": {},
-            "uris": [
-              "/*"
-            ]
-          }
-        ],
-        "policies": [],
-        "scopes": [],
-        "decisionStrategy": "UNANIMOUS"
-      }
-    },
-    {
       "id": "fcb17f7e-6208-443c-86cc-84ff3d503db1",
       "clientId": "account",
       "name": "${client_account}",
@@ -723,7 +524,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Backs the user self-service account page at /realms/webprotege/account/ (change password, update profile, view active sessions)."
     },
     {
       "id": "cf517ac7-282b-400c-a231-2492868267f7",
@@ -780,7 +582,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Backs the modern Keycloak account management console UI, the React-based replacement for the classic /account page."
     },
     {
       "id": "4da7cc98-66d3-44d3-b7ae-3ed981adf1b5",
@@ -893,7 +696,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Used by kcadm.sh for realm administration from the command line. The WebProtege entrypoint authenticates as this client when applying post-import realm patches."
     },
     {
       "id": "a0bb6442-27e5-44f3-87f3-8af6109e3eff",
@@ -933,118 +737,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
-    },
-    {
-      "id": "16182e75-f660-405e-bf3e-9391c24c1aa4",
-      "clientId": "machine-client",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
-      "redirectUris": [],
-      "webOrigins": [],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": true,
-      "publicClient": false,
-      "frontchannelLogout": false,
-      "protocol": "openid-connect",
-      "attributes": {
-        "id.token.as.detached.signature": "false",
-        "saml.assertion.signature": "false",
-        "saml.force.post.binding": "false",
-        "saml.multivalued.roles": "false",
-        "saml.encrypt": "false",
-        "post.logout.redirect.uris": "+",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false",
-        "saml.server.signature": "false",
-        "saml.server.signature.keyinfo.ext": "false",
-        "use.refresh.tokens": "true",
-        "exclude.session.state.from.auth.response": "false",
-        "realm_client": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "saml.artifact.binding": "false",
-        "backchannel.logout.session.required": "true",
-        "client_credentials.use_refresh_token": "false",
-        "saml_force_name_id_format": "false",
-        "require.pushed.authorization.requests": "false",
-        "saml.client.signature": "false",
-        "tls.client.certificate.bound.access.tokens": "false",
-        "saml.authnstatement": "false",
-        "display.on.consent.screen": "false",
-        "saml.onetimeuse.condition": "false"
-      },
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "protocolMappers": [
-        {
-          "id": "ff467eba-a954-45a3-98ff-cef4d9a21d7c",
-          "name": "Client ID",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usersessionmodel-note-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.session.note": "clientId",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "clientId",
-            "jsonType.label": "String",
-            "userinfo.token.claim": "true"
-          }
-        },
-        {
-          "id": "eabd59f4-9e76-43f6-bec6-a50ba2d48ab8",
-          "name": "Client Host",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usersessionmodel-note-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.session.note": "clientHost",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "clientHost",
-            "jsonType.label": "String",
-            "userinfo.token.claim": "true"
-          }
-        },
-        {
-          "id": "05b061fa-5345-4491-8e84-8898598129b5",
-          "name": "Client IP Address",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usersessionmodel-note-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.session.note": "clientAddress",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "clientAddress",
-            "jsonType.label": "String",
-            "userinfo.token.claim": "true"
-          }
-        }
       ],
-      "defaultClientScopes": [
-        "web-origins",
-        "acr",
-        "roles",
-        "profile",
-        "basic",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
+      "description": "Keycloak built-in client. Used internally when brokering identities from external OIDC/SAML providers. Required by Keycloak even when no external identity providers are configured."
     },
     {
       "id": "02dad5bf-1f7c-455d-93ee-5950f7e89631",
@@ -1084,7 +778,8 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Exposes the Keycloak Admin REST API for this realm. Confidential clients acquire tokens for this client to manage realm objects programmatically (see user-management)."
     },
     {
       "id": "2d8006e4-c3f6-4b17-a4d5-7774d737a994",
@@ -1151,13 +846,14 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "description": "Keycloak built-in client. Backs the Keycloak Admin Console UI at /admin/ where realm administrators manage users, roles, clients, and realm-level configuration."
     },
     {
       "id": "ac4a2ffb-4677-44bf-9bb8-551e965142c6",
       "clientId": "user-management",
       "name": "User Management",
-      "description": "This client is used by user management microservice to fetch user data.",
+      "description": "Confidential OIDC client used by webprotege-user-management-service to call the Keycloak Admin API (user CRUD, password resets, role assignments). Client secret is wired through .env as ADMIN_CLI_SECRET.",
       "rootUrl": "",
       "adminUrl": "",
       "baseUrl": "",
@@ -1222,8 +918,8 @@
     {
       "id": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
       "clientId": "webprotege",
-      "name": "WebProtégé",
-      "description": "Represents the WebProtégé UI",
+      "name": "WebProt\u00e9g\u00e9",
+      "description": "Public OIDC client for the WebProtege web UI. Users authenticate against this client during login and registration. Its protocol mappers shape the JWT claims that downstream services read (preferred_username, email).",
       "rootUrl": "",
       "adminUrl": "",
       "baseUrl": "http://webprotege-local.edu",
@@ -1949,7 +1645,8 @@
   "emailTheme": "keycloak",
   "eventsEnabled": true,
   "eventsListeners": [
-    "jboss-logging"
+    "jboss-logging",
+    "webprotege-username-attribute"
   ],
   "enabledEventTypes": [
     "SEND_RESET_PASSWORD",
