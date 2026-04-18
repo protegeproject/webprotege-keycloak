@@ -18,15 +18,23 @@ COPY --from=spi-builder /build/target/webprotege-credential-check-authenticator-
 COPY ./webprotege.json /opt/keycloak/import/webprotege.json
 COPY --chmod=755 ./entrypoint.sh /opt/keycloak/bin/entrypoint.sh
 
+# Build-time: explicitly set the db so `kc.sh build` does not warn about
+# relying on the deprecated default.  `dev-file` is Keycloak's H2 file-backed
+# store — matches the previous implicit default.  Operators who need a real
+# database override KC_DB at build time and rebuild the image.
+ENV KC_DB=dev-file
+RUN /opt/keycloak/bin/kc.sh build
+
 # Runtime defaults so `kc.sh start` (production mode) works out of the box.
 # The image is intended to sit behind a reverse proxy that terminates TLS,
 # so plain HTTP is accepted inside the container.  hostname-strict is
 # disabled because the public hostname varies by deployment; the entrypoint
-# patches the realm's frontend URL to match SERVER_HOST at runtime.  Both
-# are runtime options — override at `docker run` time if needed.
+# patches the realm's frontend URL to match SERVER_HOST at runtime.
+#
+# These are runtime options, so they are set AFTER `kc.sh build` — otherwise
+# Keycloak prints a "will be ignored during build time" warning when build
+# sees them in the environment.  Override either at `docker run` time.
 ENV KC_HTTP_ENABLED=true \
     KC_HOSTNAME_STRICT=false
-
-RUN /opt/keycloak/bin/kc.sh build
 
 ENTRYPOINT ["/opt/keycloak/bin/entrypoint.sh"]
