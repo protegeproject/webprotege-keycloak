@@ -103,16 +103,20 @@ KC_SERVER="http://localhost:8080${KC_RELATIVE_PATH}"
 KC_ADMIN="${KEYCLOAK_ADMIN:-admin}"
 KC_ADMIN_PW="${KEYCLOAK_ADMIN_PASSWORD:-password}"
 
-# If no command is provided (e.g. compose omits the 'command' directive),
-# default to 'start-dev' which is the standard Keycloak development mode.
+# If no command is provided, default to 'start' — Keycloak's production
+# mode.  It uses the pre-augmented build produced by 'kc.sh build' in the
+# Dockerfile, so it avoids the per-boot augmentation step that makes
+# 'start-dev' noticeably slower to come up.  'start-dev' remains available
+# as an explicit override (e.g. 'docker run ... start-dev') for contributors
+# who need hot-reloading of themes or realm edits.
 if [ $# -eq 0 ]; then
-  set -- start-dev
+  set -- start
 fi
 
 # ---------------------------------------------------------------------------
 # Start Keycloak in the background.
 #
-# The arguments ($@) are passed through from Docker — typically 'start-dev'
+# The arguments ($@) are passed through from Docker — typically 'start'
 # via the compose command directive.  Running in the background allows this
 # script to perform post-import patching while Keycloak is initialising.
 # ---------------------------------------------------------------------------

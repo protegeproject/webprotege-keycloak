@@ -30,6 +30,24 @@ standard Keycloak startup.  It starts Keycloak normally, waits for the realm
 import to complete, then applies two configuration patches that cannot be
 achieved through the realm import alone.
 
+### Startup Mode
+
+The default command is `start` (Keycloak's production mode).  The image runs
+`kc.sh build` during the Docker build so `start` can launch without the
+per-boot augmentation step that makes `start-dev` slower to come up.
+
+`start-dev` is still available as an explicit override — useful when iterating
+on theme files or realm config during development:
+
+```bash
+docker run ... protegeproject/webprotege-keycloak:<version> start-dev
+```
+
+The Dockerfile sets `KC_HTTP_ENABLED=true` and `KC_HOSTNAME_STRICT=false` as
+runtime defaults so `start` works out of the box for deployments behind a
+reverse proxy that terminates TLS.  Both can be overridden at `docker run`
+time.
+
 ### 1. Protocol Mapper Fix
 
 Keycloak's realm import mechanism has a known limitation: it silently drops the
