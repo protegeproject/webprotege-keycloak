@@ -237,7 +237,7 @@ docker run -d \
   -e KC_HTTP_RELATIVE_PATH="$KC_RELATIVE_PATH" \
   -e SERVER_HOST="$TEST_HOST" \
   "$IMAGE" \
-  start-dev >/dev/null
+  start >/dev/null
 
 echo "Waiting for entrypoint to complete..."
 if ! wait_for_entrypoint; then

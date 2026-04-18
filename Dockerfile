@@ -18,6 +18,15 @@ COPY --from=spi-builder /build/target/webprotege-credential-check-authenticator-
 COPY ./webprotege.json /opt/keycloak/import/webprotege.json
 COPY --chmod=755 ./entrypoint.sh /opt/keycloak/bin/entrypoint.sh
 
+# Runtime defaults so `kc.sh start` (production mode) works out of the box.
+# The image is intended to sit behind a reverse proxy that terminates TLS,
+# so plain HTTP is accepted inside the container.  hostname-strict is
+# disabled because the public hostname varies by deployment; the entrypoint
+# patches the realm's frontend URL to match SERVER_HOST at runtime.  Both
+# are runtime options — override at `docker run` time if needed.
+ENV KC_HTTP_ENABLED=true \
+    KC_HOSTNAME_STRICT=false
+
 RUN /opt/keycloak/bin/kc.sh build
 
 ENTRYPOINT ["/opt/keycloak/bin/entrypoint.sh"]
