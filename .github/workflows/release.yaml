@@ -101,9 +101,9 @@ jobs:
           push: true
           tags: protegeproject/webprotege-keycloak:${{ steps.release-version.outputs.release_version }}
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           tag_name: ${{ steps.release-version.outputs.release_version }}
           generate_release_notes: true
