@@ -1642,7 +1642,7 @@
   "loginTheme": "webprotege",
   "accountTheme": "keycloak.v3",
   "adminTheme": "keycloak.v2",
-  "emailTheme": "keycloak",
+  "emailTheme": "webprotege",
   "eventsEnabled": true,
   "eventsListeners": [
     "jboss-logging",
