@@ -297,6 +297,49 @@ assert_eq \
   "preferred_username" \
   "$(echo "$MAPPER_JSON" | jq -r '.config["claim.name"]')"
 
+# --- Check the ProjectCreator default role ---
+#
+# The 'webprotege' client should have a 'ProjectCreator' role, and that role
+# should be associated with the realm's 'default-roles-webprotege' composite
+# role so that every user (self-registered or admin-created) receives it
+# automatically. See protegeproject/webprotege-keycloak#12.
+
+echo ""
+echo "--- ProjectCreator default role assertions ---"
+
+WEBPROTEGE_CLIENT_ID=$(kcadm get clients -r webprotege --fields id,clientId \
+  | jq -r '.[] | select(.clientId == "webprotege") | .id')
+
+PROJECT_CREATOR_JSON=$(kcadm get "clients/$WEBPROTEGE_CLIENT_ID/roles/ProjectCreator" -r webprotege)
+
+assert_eq \
+  "ProjectCreator role exists under the webprotege client" \
+  "ProjectCreator" \
+  "$(echo "$PROJECT_CREATOR_JSON" | jq -r '.name')"
+
+assert_eq \
+  "ProjectCreator is a client role (not a realm role)" \
+  "true" \
+  "$(echo "$PROJECT_CREATOR_JSON" | jq -r '.clientRole')"
+
+assert_eq \
+  "ProjectCreator is not itself composite" \
+  "false" \
+  "$(echo "$PROJECT_CREATOR_JSON" | jq -r '.composite')"
+
+assert_contains \
+  "ProjectCreator has a non-empty description" \
+  "project" \
+  "$(echo "$PROJECT_CREATOR_JSON" | jq -r '.description' | tr '[:upper:]' '[:lower:]')"
+
+DEFAULT_ROLE_ASSOCIATIONS=$(kcadm get-roles -r webprotege \
+  --rname default-roles-webprotege --cclientid webprotege)
+
+assert_contains \
+  "ProjectCreator is associated with default-roles-webprotege" \
+  "ProjectCreator" \
+  "$(echo "$DEFAULT_ROLE_ASSOCIATIONS" | jq -r '.[].name')"
+
 # --- Check client URIs ---
 #
 # The 'webprotege' client's baseUrl, redirectUris, and webOrigins should
@@ -341,13 +384,27 @@ assert_eq \
   "$FRONTEND_URL"
 
 # ===========================================================================
-# TEST PHASE 2: Restart (idempotency)
+# TEST PHASE 2: Simulate a pre-existing realm without ProjectCreator
 # ===========================================================================
+#
+# Phase 1 always boots against the current webprotege.json, which already
+# ships ProjectCreator baked in — so ensure_project_creator_default_role's
+# "role missing -> create it" / "not associated -> associate it" branches
+# never actually run there. This phase deliberately removes the role and
+# its association via kcadm (simulating a realm imported before this fix
+# shipped, per protegeproject/webprotege-keycloak#12), then restarts so the
+# entrypoint's actual creation/association code path is exercised for real.
 
 echo ""
-echo "=== Phase 2: Restart (idempotency) ==="
-echo "Restarting container..."
+echo "=== Phase 2: Simulate a pre-existing realm without ProjectCreator ==="
+echo "Removing ProjectCreator's default-role association and the role itself..."
 
+kcadm remove-roles -r webprotege \
+  --rname default-roles-webprotege --cclientid webprotege --rolename ProjectCreator
+
+kcadm delete "clients/$WEBPROTEGE_CLIENT_ID/roles/ProjectCreator" -r webprotege
+
+echo "Restarting container..."
 docker restart "$CONTAINER_NAME" >/dev/null
 
 echo "Waiting for entrypoint to complete (second boot)..."
@@ -355,12 +412,71 @@ if ! wait_for_entrypoint_count 2; then
   exit 1
 fi
 
-# The entrypoint messages from the second boot are interleaved with the
-# first boot's messages in the Docker log.  We extract only the messages
-# from after the restart by finding everything after the last "Waiting
-# for Keycloak to start" message.  The awk command resets its buffer
-# each time it sees the marker, so at the end only the final block
-# (the second boot) remains.
+# Same log-isolation technique as the idempotency phase below: keep only the
+# messages from after the most recent "Waiting for Keycloak to start" marker.
+RECREATE_BOOT_LOGS=$(docker logs "$CONTAINER_NAME" 2>&1 \
+  | grep "\[entrypoint\]" \
+  | awk '/Waiting for Keycloak to start/{buf=""} {buf=buf $0 "\n"} END{printf "%s", buf}')
+
+echo ""
+echo "--- Recreation assertions (role/association were actually missing) ---"
+
+assert_contains \
+  "ProjectCreator role was recreated on restart" \
+  "'ProjectCreator' role not found. Creating it..." \
+  "$RECREATE_BOOT_LOGS"
+
+assert_contains \
+  "ProjectCreator role creation succeeded" \
+  "'ProjectCreator' role created." \
+  "$RECREATE_BOOT_LOGS"
+
+assert_contains \
+  "ProjectCreator default-role association was recreated on restart" \
+  "not yet part of default-roles-webprotege. Associating..." \
+  "$RECREATE_BOOT_LOGS"
+
+assert_contains \
+  "ProjectCreator default-role association succeeded" \
+  "'ProjectCreator' associated with default-roles-webprotege." \
+  "$RECREATE_BOOT_LOGS"
+
+PROJECT_CREATOR_ROLE_RECREATED=$(kcadm get "clients/$WEBPROTEGE_CLIENT_ID/roles" -r webprotege --fields name \
+  | jq -r '.[] | select(.name == "ProjectCreator") | .name')
+
+assert_eq \
+  "ProjectCreator role exists again after recreation" \
+  "ProjectCreator" \
+  "$PROJECT_CREATOR_ROLE_RECREATED"
+
+DEFAULT_ROLE_ASSOCIATIONS_RECREATED=$(kcadm get-roles -r webprotege \
+  --rname default-roles-webprotege --cclientid webprotege)
+
+assert_contains \
+  "ProjectCreator is associated with default-roles-webprotege again after recreation" \
+  "ProjectCreator" \
+  "$(echo "$DEFAULT_ROLE_ASSOCIATIONS_RECREATED" | jq -r '.[].name')"
+
+# ===========================================================================
+# TEST PHASE 3: Restart again (idempotency)
+# ===========================================================================
+
+echo ""
+echo "=== Phase 3: Restart again (idempotency) ==="
+echo "Restarting container..."
+
+docker restart "$CONTAINER_NAME" >/dev/null
+
+echo "Waiting for entrypoint to complete (third boot)..."
+if ! wait_for_entrypoint_count 3; then
+  exit 1
+fi
+
+# The entrypoint messages from this boot are interleaved with all prior
+# boots' messages in the Docker log.  We extract only the messages from
+# after this restart by finding everything after the last "Waiting for
+# Keycloak to start" message.  The awk command resets its buffer each time
+# it sees the marker, so at the end only the final block (this boot) remains.
 SECOND_BOOT_LOGS=$(docker logs "$CONTAINER_NAME" 2>&1 \
   | grep "\[entrypoint\]" \
   | awk '/Waiting for Keycloak to start/{buf=""} {buf=buf $0 "\n"} END{printf "%s", buf}')
@@ -376,6 +492,16 @@ assert_contains \
 assert_contains \
   "Mapper fix was skipped on restart" \
   "already correct" \
+  "$SECOND_BOOT_LOGS"
+
+assert_contains \
+  "ProjectCreator role creation was skipped on restart" \
+  "'ProjectCreator' role already exists" \
+  "$SECOND_BOOT_LOGS"
+
+assert_contains \
+  "ProjectCreator default-role association was skipped on restart" \
+  "already associated with default-roles-webprotege" \
   "$SECOND_BOOT_LOGS"
 
 assert_contains \
@@ -416,6 +542,22 @@ assert_eq \
   "Realm frontendUrl still correct after restart" \
   "http://${TEST_HOST}/keycloak" \
   "$FRONTEND_URL_2"
+
+PROJECT_CREATOR_ROLE_2=$(kcadm get "clients/$WEBPROTEGE_CLIENT_ID/roles" -r webprotege --fields name \
+  | jq -r '.[] | select(.name == "ProjectCreator") | .name')
+
+assert_eq \
+  "ProjectCreator role still exists after restart" \
+  "ProjectCreator" \
+  "$PROJECT_CREATOR_ROLE_2"
+
+DEFAULT_ROLE_ASSOCIATIONS_2=$(kcadm get-roles -r webprotege \
+  --rname default-roles-webprotege --cclientid webprotege)
+
+assert_contains \
+  "ProjectCreator still associated with default-roles-webprotege after restart" \
+  "ProjectCreator" \
+  "$(echo "$DEFAULT_ROLE_ASSOCIATIONS_2" | jq -r '.[].name')"
 
 # ===========================================================================
 # Results

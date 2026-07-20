@@ -69,7 +69,11 @@
             "uma_authorization",
             "user"
           ],
-          "client": {}
+          "client": {
+            "webprotege": [
+              "ProjectCreator"
+            ]
+          }
         },
         "clientRole": false,
         "containerId": "webprotege",
@@ -315,6 +319,15 @@
           "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
           "attributes": {},
           "description": "Grants full admin access to WebProtege. Assign to the first user after a fresh install to bootstrap admin access; that user can then manage further role assignments within WebProtege. Maps to BuiltInRole.SYSTEM_ADMIN via resource_access in the JWT."
+        },
+        {
+          "id": "d7309af9-857f-4a6a-adbd-c3e00ad8c80c",
+          "name": "ProjectCreator",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "d99fbcdd-a2bf-4156-be13-bd5cf07039d4",
+          "attributes": {},
+          "description": "Grants permission to create new WebProtege projects, controlling visibility of the Create New Project button. Included in the default roles granted to every new user, whether self-registered or created by an admin."
         }
       ],
       "user-management": [],
