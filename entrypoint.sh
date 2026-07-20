@@ -10,7 +10,7 @@
 # ---------------
 # WebProtege ships a realm JSON file (webprotege.json) that is imported
 # automatically by Keycloak on first boot via the /opt/keycloak/import/
-# directory.  Two problems prevent the imported realm from being correct
+# directory.  Three problems prevent the imported realm from being correct
 # out of the box:
 #
 #   1. PROTOCOL MAPPER BUG — Keycloak's realm import silently drops the
@@ -40,6 +40,15 @@
 #      the SERVER_HOST environment variable and patches these values
 #      automatically, making the image portable across environments.
 #
+#   3. MISSING DEFAULT ROLE ON PRE-EXISTING REALMS — The realm JSON defines
+#      a 'ProjectCreator' client role and includes it in the
+#      'default-roles-webprotege' composite role, so fresh installs grant it
+#      to every new user automatically.  Realms that were already imported
+#      before this role existed will not pick up the change from re-running
+#      the import (import is skipped once the realm exists — see step 3
+#      below), so this script also patches already-imported realms in place.
+#      See protegeproject/webprotege-keycloak#12.
+#
 # HOW IT WORKS
 # ------------
 #   1. Keycloak is started in the background (the normal kc.sh process).
@@ -53,16 +62,18 @@
 #   4. It checks and, if necessary, fixes the username protocol mapper.
 #   5. If SERVER_HOST is set, it updates client URIs and the realm frontend
 #      URL to match.
-#   6. Control is handed back to the Keycloak process, which remains the
+#   6. It checks and, if necessary, creates the 'ProjectCreator' client role
+#      and associates it with 'default-roles-webprotege'.
+#   7. Control is handed back to the Keycloak process, which remains the
 #      container's foreground process for the rest of its lifecycle.
 #
 # IDEMPOTENCY
 # -----------
 # Every patch is guarded by a check.  On subsequent container restarts
 # (where the realm already exists in Keycloak's persistent storage and the
-# mapper was fixed on a previous boot), the script detects the correct state
-# and skips the modification.  This means the script is safe to run on every
-# startup without side effects.
+# mapper and default role were already fixed on a previous boot), the script
+# detects the correct state and skips the modification.  This means the
+# script is safe to run on every startup without side effects.
 #
 # SIGNAL HANDLING
 # ---------------
@@ -329,10 +340,100 @@ update_client_uris() {
 }
 
 # ---------------------------------------------------------------------------
+# ensure_project_creator_default_role
+#
+# Ensures the 'ProjectCreator' client role exists on the 'webprotege' client
+# and is included in the realm's 'default-roles-webprotege' composite role,
+# so that every user — self-registered or admin-created — receives it
+# automatically via Keycloak's own default-role resolution.
+#
+# Historically, 'ProjectCreator' has only ever been added by hand to running
+# instances, and is absent from the checked-in realm JSON. Realms that were
+# imported before this fix shipped will not pick it up from a re-import, so
+# this function patches them in place. See protegeproject/webprotege-keycloak#12.
+#
+# Scope notes (deliberate, not oversights):
+#   - This only affects NEW default-role assignments. Keycloak evaluates
+#     default roles at user-creation time, not continuously, so users who
+#     registered before this fix shipped will not be retroactively granted
+#     the role — same as today's ad hoc/manual grants for such accounts.
+#   - 'default-roles-webprotege' is also carried by the realm's built-in
+#     service accounts (service-account-admin-cli, service-account-user-management).
+#     Since both their clients have fullScopeAllowed=true, this means those
+#     service accounts' tokens also gain the ProjectCreator entitlement, even
+#     though neither currently calls WebProtege's own project-creation API.
+#     Accepted as a documented residual risk rather than restructuring
+#     service-account role scoping, which is a larger, separate change.
+#
+# Steps:
+#   1. Look up the internal ID of the 'webprotege' client.
+#   2. Check whether a 'ProjectCreator' role already exists under that
+#      client. If not, create it.
+#   3. Check whether 'default-roles-webprotege' already has 'ProjectCreator'
+#      associated. If not, associate it.
+#
+# Both checks are independent and idempotent, mirroring fix_username_mapper's
+# "detect correct state, skip if already applied" style. Unlike the mapper
+# fix (which uses a delete-then-recreate approach because kcadm doesn't
+# reliably support partial mapper updates), step 2/3 mutations here are
+# guarded so a transient kcadm failure logs a warning and returns rather
+# than aborting the whole script under 'set -e' — consistent with this
+# script's design of never crashing the container over an optional patch.
+# ---------------------------------------------------------------------------
+ensure_project_creator_default_role() {
+  local client_id existing_role existing_association
+
+  # Step 1: Find the internal ID of the 'webprotege' client
+  client_id=$($KCADM get clients -r webprotege --fields id,clientId \
+    | jq -r '.[] | select(.clientId == "webprotege") | .id')
+
+  if [ -z "$client_id" ]; then
+    echo "[entrypoint] WARNING: 'webprotege' client not found. Skipping ProjectCreator role setup."
+    return
+  fi
+
+  # Step 2: Create the 'ProjectCreator' client role if it does not exist
+  existing_role=$($KCADM get "clients/$client_id/roles" -r webprotege --fields name \
+    | jq -r '.[] | select(.name == "ProjectCreator") | .name')
+
+  if [ -z "$existing_role" ]; then
+    echo "[entrypoint] 'ProjectCreator' role not found. Creating it..."
+    if ! $KCADM create "clients/$client_id/roles" -r webprotege \
+        -s name=ProjectCreator \
+        -s 'description=Grants permission to create new WebProtege projects, controlling visibility of the Create New Project button. Included in the default roles granted to every new user, whether self-registered or created by an admin.'; then
+      echo "[entrypoint] WARNING: Failed to create 'ProjectCreator' role. Skipping ProjectCreator role setup."
+      return
+    fi
+    echo "[entrypoint] 'ProjectCreator' role created."
+  else
+    echo "[entrypoint] 'ProjectCreator' role already exists. Skipping creation."
+  fi
+
+  # Step 3: Associate 'ProjectCreator' with 'default-roles-webprotege' if not
+  # already associated
+  existing_association=$($KCADM get-roles -r webprotege \
+    --rname default-roles-webprotege --cclientid webprotege \
+    | jq -r '.[] | select(.name == "ProjectCreator") | .name')
+
+  if [ -z "$existing_association" ]; then
+    echo "[entrypoint] 'ProjectCreator' not yet part of default-roles-webprotege. Associating..."
+    if ! $KCADM add-roles -r webprotege \
+        --rname default-roles-webprotege --cclientid webprotege --rolename ProjectCreator; then
+      echo "[entrypoint] WARNING: Failed to associate 'ProjectCreator' with default-roles-webprotege."
+      return
+    fi
+    echo "[entrypoint] 'ProjectCreator' associated with default-roles-webprotege."
+  else
+    echo "[entrypoint] 'ProjectCreator' already associated with default-roles-webprotege. Skipping."
+  fi
+}
+
+# ---------------------------------------------------------------------------
 # Apply the patches and hand control back to Keycloak.
 # ---------------------------------------------------------------------------
 fix_username_mapper
 update_client_uris
+ensure_project_creator_default_role
 
 echo "[entrypoint] Realm configuration complete."
 
